@@ -15,21 +15,23 @@
  */
 package org.springframework.samples.petclinic.customers.web;
 
+import java.util.Date;
 import lombok.Data;
 
-import java.util.Date;
-
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.customers.model.Owner;
 import org.springframework.samples.petclinic.customers.model.Pet;
 import org.springframework.samples.petclinic.customers.model.PetType;
 
 /**
  * @author mszarlinski@bravurasolutions.com on 2016-12-05.
+ * @author Ray Tsang
  */
 @Data
 class PetDetails {
+    private String ownerId;
 
-    private long id;
+    private String petId;
 
     private String name;
 
@@ -40,10 +42,11 @@ class PetDetails {
 
     private PetType type;
 
-    PetDetails(Pet pet) {
-        this.id = pet.getId();
+    PetDetails(Owner owner, Pet pet) {
+        this.ownerId = pet.getOwnerId();
+        this.petId = pet.getPetId();
         this.name = pet.getName();
-        this.owner = pet.getOwner().getFirstName() + " " + pet.getOwner().getLastName();
+        this.owner = owner.getFirstName() + " " + owner.getLastName();
         this.birthDate = pet.getBirthDate();
         this.type = pet.getType();
     }

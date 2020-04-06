@@ -7,6 +7,7 @@ angular.module('petForm')
 
         $http.get('api/customer/petTypes').then(function (resp) {
             self.types = resp.data;
+            self.types.unshift("");
         }).then(function () {
 
             var petId = $stateParams.petId || 0;
@@ -15,27 +16,27 @@ angular.module('petForm')
                 $http.get("api/customer/owners/" + ownerId + "/pets/" + petId).then(function (resp) {
                     self.pet = resp.data;
                     self.pet.birthDate = new Date(self.pet.birthDate);
-                    self.petTypeId = "" + self.pet.type.id;
                 });
             } else {
                 $http.get('api/customer/owners/' + ownerId).then(function (resp) {
                     self.pet = {
-                        owner: resp.data.firstName + " " + resp.data.lastName
+                        owner: resp.data.firstName + " " + resp.data.lastName,
+                        type: "CAT"
                     };
-                    self.petTypeId = "1";
                 })
 
             }
         });
 
         self.submit = function () {
-            var id = self.pet.id || 0;
+            var id = self.pet.petId || 0;
 
             var data = {
-                id: id,
+                ownerId: ownerId,
+                petId: id,
                 name: self.pet.name,
                 birthDate: self.pet.birthDate,
-                typeId: self.petTypeId
+                type: self.pet.type
             };
 
             var req;
@@ -46,7 +47,7 @@ angular.module('petForm')
             }
 
             req.then(function () {
-                $state.go("owners", {ownerId: ownerId});
+                $state.go("ownerDetails", {ownerId: ownerId});
             }, function (response) {
                 var error = response.data;
                 error.errors = error.errors || [];

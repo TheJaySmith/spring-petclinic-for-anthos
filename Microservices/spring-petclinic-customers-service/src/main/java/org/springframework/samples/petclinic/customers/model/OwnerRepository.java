@@ -15,7 +15,9 @@
  */
 package org.springframework.samples.petclinic.customers.model;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.cloud.gcp.data.spanner.repository.SpannerRepository;
+
+import java.util.UUID;
 
 /**
  * Repository class for <code>Owner</code> domain objects All method names are compliant with Spring Data naming
@@ -26,5 +28,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Sam Brannen
  * @author Michael Isvy
  * @author Maciej Szarlinski
+ * @author Ray Tsang
  */
-public interface OwnerRepository extends JpaRepository<Owner, Integer> { }
+public interface OwnerRepository extends SpannerRepository<Owner, String> { }

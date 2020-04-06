@@ -15,7 +15,7 @@
  */
 package org.springframework.samples.petclinic.vets.model;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.cloud.gcp.data.spanner.repository.SpannerRepository;
 
 /**
  * Repository class for <code>Vet</code> domain objects All method names are compliant with Spring Data naming
@@ -26,6 +26,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Sam Brannen
  * @author Michael Isvy
  * @author Maciej Szarlinski
+ * @author Ray Tsang
  */
-public interface VetRepository extends JpaRepository<Vet, Integer> {
+public interface VetRepository extends SpannerRepository<Vet, String> {
 }

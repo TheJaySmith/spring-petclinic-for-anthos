@@ -22,9 +22,10 @@ import org.springframework.context.annotation.Profile;
 /**
  * Cache could be disable in unit test.
  * @author Maciej Szarlinski
+ * @author Ray Tsang
  */
 @Configuration
 @EnableCaching
-@Profile("production")
+@Profile({"production", "docker"})
 class CacheConfig {
 }

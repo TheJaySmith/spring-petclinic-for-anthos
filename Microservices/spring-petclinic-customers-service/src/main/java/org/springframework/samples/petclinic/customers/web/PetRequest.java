@@ -15,20 +15,26 @@
  */
 package org.springframework.samples.petclinic.customers.web;
 
+import java.util.Date;
 import lombok.Data;
 
-import java.util.Date;
-
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.samples.petclinic.customers.model.PetType;
 
 /**
  * @author mszarlinski@bravurasolutions.com on 2016-12-05.
+ * @author Ray Tsang
  */
 @Data
 class PetRequest {
-    private int id;
+	@NotEmpty
+	private String ownerId;
+
+    private String petId;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
@@ -36,5 +42,6 @@ class PetRequest {
     @Size(min = 1)
     private String name;
 
-    private int typeId;
+    @NotNull
+    private PetType type;
 }

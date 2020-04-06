@@ -15,20 +15,15 @@
  */
 package org.springframework.samples.petclinic.visits.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import lombok.Data;
+import lombok.ToString;
+import org.springframework.cloud.gcp.data.spanner.core.mapping.Column;
+import org.springframework.cloud.gcp.data.spanner.core.mapping.PrimaryKey;
+import org.springframework.cloud.gcp.data.spanner.core.mapping.Table;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 
 /**
  * Simple JavaBean domain object representing a visit.
@@ -36,48 +31,26 @@ import lombok.NoArgsConstructor;
  * @author Ken Krebs
  * @author Maciej Szarlinski
  */
-@Entity
 @Table(name = "visits")
-@Builder(builderMethodName = "visit")
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
+@ToString
 public class Visit {
+    @PrimaryKey(keyOrder = 1)
+    @Column(name = "owner_id")
+    private String ownerId;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @PrimaryKey(keyOrder = 2)
+    @Column(name = "pet_id")
+    private String petId;
 
-    @Builder.Default
-    @Column(name = "visit_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date date = new Date();
+    @PrimaryKey(keyOrder = 3)
+	@Column(name = "visit_id")
+    private String visitId;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date date;
 
     @Size(max = 8192)
-    @Column(name = "description")
     private String description;
-
-    @Column(name = "pet_id")
-    private int petId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getPetId() {
-        return petId;
-    }
-
-    public void setPetId(final int petId) {
-        this.petId = petId;
-    }
 
 }

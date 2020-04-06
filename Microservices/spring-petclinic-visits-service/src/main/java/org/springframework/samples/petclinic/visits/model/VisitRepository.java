@@ -15,10 +15,9 @@
  */
 package org.springframework.samples.petclinic.visits.model;
 
-import java.util.Collection;
-import java.util.List;
+import org.springframework.cloud.gcp.data.spanner.repository.SpannerRepository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 /**
  * Repository class for <code>Visit</code> domain objects All method names are compliant with Spring Data naming conventions so this interface can easily be extended for Spring
@@ -30,9 +29,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Michael Isvy
  * @author Maciej Szarlinski
  */
-public interface VisitRepository extends JpaRepository<Visit, Integer> {
+public interface VisitRepository extends SpannerRepository<Visit, String[]> {
 
-    List<Visit> findByPetId(int petId);
+    List<Visit> findByOwnerIdAndPetId(String ownerId, String petId);
 
-    List<Visit> findByPetIdIn(Collection<Integer> petIds);
 }

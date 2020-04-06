@@ -16,25 +16,35 @@
 package org.springframework.samples.petclinic.api.application;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.samples.petclinic.api.dto.OwnerDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 /**
  * @author Maciej Szarlinski
+ * @author Ray Tsang
  */
 @Component
 @RequiredArgsConstructor
 public class CustomersServiceClient {
 
-    private final WebClient.Builder webClientBuilder;
+    private final RestTemplate restTemplate;
 
-    public Mono<OwnerDetails> getOwner(final int ownerId) {
-        return webClientBuilder.build().get()
-            .uri("http://customers-service/owners/{ownerId}", ownerId)
-            .retrieve()
-            .bodyToMono(OwnerDetails.class);
+    public OwnerDetails getOwner(final String ownerId) {
+        OwnerDetails owner = restTemplate.getForObject("http://customers-service:8080/api/customer/owners/{ownerId}", OwnerDetails.class, ownerId);
+
+        ResponseEntity<List<PetDetails>> petsResponse = restTemplate.exchange("http://customers-service:8080/api/customer/owners/{ownerId}/pets",
+                HttpMethod.GET, HttpEntity.EMPTY,
+                new ParameterizedTypeReference<List<PetDetails>>() {},
+                ownerId);
+
+        owner.setPets(petsResponse.getBody());
+        return owner;
     }
 }
