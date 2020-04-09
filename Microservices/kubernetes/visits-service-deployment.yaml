@@ -47,7 +47,7 @@ spec:
           secretName: petclinic-credentials
       containers:
       - name: visits-service
-        image: saturnism/gcp-spring-petclinic-visits-service:latest
+        image: REPO/gcp-spring-petclinic-visits-service:latest
         readinessProbe:
           exec:
             command:

@@ -15,3 +15,7 @@ target/*
 !.vscode/extensions.json
 _site/
 Microservices-test/
+Microservices-old/
+petclinic-service-account.json
+docker-compose.yml
+pom.xml.bak

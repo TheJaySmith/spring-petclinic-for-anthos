@@ -46,7 +46,7 @@ spec:
           secretName: petclinic-credentials
       containers:
       - name: api-gateway
-        image: saturnism/gcp-spring-petclinic-api-gateway:latest
+        image: REPO/gcp-spring-petclinic-api-gateway:latest
         readinessProbe:
           exec:
             command:
