@@ -4,24 +4,25 @@ Example Petclinic deployment on Google Cloud Platform into Google Kubernetes Eng
 This is based on [Spring PetClinic Microservices](https://github.com/spring-petclinic/spring-petclinic-microservices)
 
 This example has:
- - Observability and Monitoring
-   - Stackdriver Trace
-   - Stackdriver Monitorning
-   - Stackdriver Logging
-   - Stackdriver Debugging
-   - Stackdriver Profiling
- - Spring Boot Petclinic Example with Google Cloud Native configuration
-   - Spring Cloud GCP
-   - Removed Eureka, Hystrix, Ribbon, Config Server, Gateway, and many other components, because they are provided by Kubernetes and Istio.
-     - Eureka -> Kubernetes Service
-     - Config Server -> Kubernetes Config Map
-     - Gateway -> Kubernetes Ingress
-     - Hystrix -> Istio
-     - Ribbon -> Istio
- - Build
-   - Spotify's dockerfile-maven-plugin
- - DevOps
-   - Travis CI
+
+- Observability and Monitoring
+  - Stackdriver Trace
+  - Stackdriver Monitorning
+  - Stackdriver Logging
+  - Stackdriver Debugging
+  - Stackdriver Profiling
+- Spring Boot Petclinic Example with Google Cloud Native configuration
+  - Spring Cloud GCP
+  - Removed Eureka, Hystrix, Ribbon, Config Server, Gateway, and many other components, because they are provided by Kubernetes and Istio.
+  - Eureka -> Kubernetes Service
+  - Config Server -> Kubernetes Config Map
+  - Gateway -> Kubernetes Ingress
+  - Hystrix -> Istio
+  - Ribbon -> Istio
+- Build
+  - Spotify's dockerfile-maven-plugin
+- DevOps
+  - Travis CI
 
 ## Google Cloud Platform Project
 
@@ -223,26 +224,33 @@ NAME                   TYPE           CLUSTER-IP EXTERNAL-IP                    
 Open the browser to see if the app is working!
 
 ## Travis CI/CD
+
 Install the Travis CLI:
+
+```bash
+brew install travis
 ```
-$ brew install travis
-```
+
 Or, follow the [Travis CLI Installation instruction](https://github.com/travis-ci/travis.rb#installation)
 
 Login to Travis
+
+```bash
+travis login
 ```
-$ travis login
-```
+
 Or, optionally login with `travis login --github-token=...` to avoid typing password, etc.
 
 Configure Docker credentials:
-```
-$ travis env set DOCKER_USERNAME your_username
-$ travis env set DOCKER_PASSWORD your_password
+
+```bash
+travis env set DOCKER_USERNAME your_username
+travis env set DOCKER_PASSWORD your_password
 ```
 
 Create a CI/CD Service Account, assign roles, and create a JSON file:
-```
+
+```bash
 $ gcloud iam service-accounts create travis-ci --display-name "Travis CI/CD"
 $ gcloud projects add-iam-policy-binding $PROJECT_ID \
      --member serviceAccount:travis-ci@$PROJECT_ID.iam.gserviceaccount.com \
@@ -252,14 +260,17 @@ $ gcloud iam service-accounts keys create ~/travis-ci-petclinic.json \
 ```
 
 Encrypt and Store the Travis CI/CD Service Account:
+
+```bash
+travis encrypt-file ~/travis-ci-petclinic.json
 ```
-$ travis encrypt-file ~/travis-ci-petclinic.json
-```
+
 Travis asks you to add a line to `before_install` section. Make sure it's updated.
 
 Set the Google Cloud Platform Project ID for reference in the build:
-```
-$ travis env set PROJECT_ID $PROJECT_ID
+
+```bash
+travis env set PROJECT_ID $PROJECT_ID
 ```
 
 Commit `.travis.yml`

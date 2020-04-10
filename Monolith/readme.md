@@ -70,7 +70,7 @@ sudo apt-get update --fix-missing \
 && sudo apt-get install -y openjdk-11-jdk maven nginx-full
 ```
 
-If you want to use port 80 instead of 8080, we will use NGINX as a proxy. 
+If you want to use port 80 instead of 8080, we will use NGINX as a proxy.
 
 ```bash
 sudo rm /etc/nginx/sites-enabled/default
