@@ -69,7 +69,7 @@ gcloud beta container clusters create petclinic-micro \
     --istio-config=auth=MTLS_PERMISSIVE \
     --zone=us-central1-a \
     --num-nodes=3 \
-    --machine-type=n1-standard-2 \
+    --machine-type=n1-standard-4 \
     --enable-autorepair \
     --scopes=cloud-platform \
     --enable-stackdriver-kubernetes
