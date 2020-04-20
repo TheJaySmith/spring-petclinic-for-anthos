@@ -35,7 +35,7 @@ gcloud compute instances add-tags spring-monolith \
 --tags http-8080
 
 
-sudo bash -c 'cat <<EOF >> spring
+sudo bash -c 'cat <<EOF >> /etc/nginx/sites-enabled/spring
 server {
   listen          80;
   server_name     localhost;
